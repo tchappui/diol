@@ -20,7 +20,9 @@ Database IO Layer
 
 
 
-The Diol Python library is a simple implementation of the repository pattern to organize the database access layer in projects not using an ORM. It uses the records library and only supports, at the moment, MySQL.
+The Diol Python library is a simple implementation of the repository pattern to 
+organize the database access layer in projects using raw SQL. It uses the 
+records library and only supports, at the moment, MySQL.
 
 
 * Free software: MIT license
