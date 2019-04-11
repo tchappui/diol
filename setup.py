@@ -25,15 +25,12 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
-        "Programming Language :: Python :: 2",
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
     ],
-    description="The Diol Python library is a simple implementation of the repository pattern to organize the database access layer in projects not using an ORM. It uses the records library and only supports, at the moment, MySQL.",
+    description="""The Diol Python library is a simple implementation of the 
+        repository pattern to organize the database access layer in projects 
+        not using an ORM. It uses the records library and only supports, at the 
+        moment, MySQL.""",
     install_requires=requirements,
     license="MIT license",
     long_description=readme + '\n\n' + history,
