@@ -11,7 +11,7 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = [ ]
+requirements = ['records', 'mysql-connector-python', ]
 
 setup_requirements = ['pytest-runner', ]
 
@@ -27,9 +27,9 @@ setup(
         'Natural Language :: English',
         'Programming Language :: Python :: 3.7',
     ],
-    description="""The Diol Python library is a simple implementation of the 
-        repository pattern to organize the database access layer in projects 
-        not using an ORM. It uses the records library and only supports, at the 
+    description="""The Diol Python library is a simple implementation of the
+        repository pattern to organize the database access layer in projects
+        not using an ORM. It uses the records library and only supports, at the
         moment, MySQL.""",
     install_requires=requirements,
     license="MIT license",
