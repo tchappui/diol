@@ -86,7 +86,7 @@ class Repository:
             SELECT * FROM {self.table_name} WHERE {self._where(data)}
         """, **data).all(as_dict=True)
 
-    def create(self, **data):
+    def create(self, instance=None, **data):
         """Creates a new entry and returns the corresponding instance."""
         self._create(data)
         if 'id' not in data:
@@ -127,6 +127,26 @@ class Repository:
         self._create(data)
         if not instance.id:
             instance.id = self._last_id
+        return instance
+
+    def get_or_save(self, instance):
+        """Fills in the id of instance or save it if not already in database.
+        """
+        data = {k: v for k, v in asdict(instance).items() if v is not None}
+        rows = self._get_all_by(data)
+        if not rows:
+            self._create(data)
+            rows = self._get_last()
+        diffs = {
+            k: v
+            for k, v in rows[0].items()
+            for k2, v2 in data.items()
+            if v != v2
+        }
+        for key, val in diffs.items():
+            setattr(instance, key, val)
+        return instance
+
 
     def save_all(self, collection):
         """Saves a collection of new instances in the database."""
@@ -151,4 +171,5 @@ def model(entity):
     if not hasattr(entity, 'objects'):
         entity.objects = Repository(entity)
     entity.save = lambda self: entity.objects.save(self)
+    entity.get_or_save = lambda self: entity.objects.get_or_save(self)
     return entity
