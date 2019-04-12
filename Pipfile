@@ -4,6 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+records = "*"
+mysql-connector-python = "*"
 
 [dev-packages]
 bumpversion = "*"
@@ -16,6 +18,7 @@ pytest = "*"
 pytest-runner = "*"
 Sphinx = "*"
 wheel = "*"
+pytest-mock = "*"
 
 [requires]
 python_version = "3.7"
