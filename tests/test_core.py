@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""Tests for `diol.core` module."""
+"""Tests for `zentity.core` module."""
 
 from dataclasses import dataclass
 
-from diol.core import Repository, model
+from zentity.core import Repository, model
 
 def test_repository_creates_as_expected(mocker):
     class MyFakeEntity:
@@ -264,7 +264,7 @@ def test_model_decorator_transforms_to_dataclass(mocker):
 
 def test_model_decorator_save_calls_repository_save(mocker):
     mocker.patch('records.Database')
-    mocker.patch('diol.core.Repository')
+    mocker.patch('zentity.core.Repository')
     @model
     class MyFakeEntity:
         title: str
@@ -277,7 +277,7 @@ def test_model_decorator_save_calls_repository_save(mocker):
 
 def test_repository_get_or_save(mocker):
     Database = mocker.patch('records.Database')
-    _create = mocker.patch('diol.core.Repository._create')
+    _create = mocker.patch('zentity.core.Repository._create')
     Database().query().all.return_value = [
         {'modified': 1, 'not_modified':None, 'a': 'A', 'b': 'B'}
     ]

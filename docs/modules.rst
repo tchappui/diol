@@ -1,7 +1,7 @@
-diol
-====
+zentity
+=======
 
 .. toctree::
    :maxdepth: 4
 
-   diol
+   zentity

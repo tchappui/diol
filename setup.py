@@ -27,7 +27,7 @@ setup(
         'Natural Language :: English',
         'Programming Language :: Python :: 3.7',
     ],
-    description="""The Diol Python library is a simple implementation of the
+    description="""The zentity Python library is a simple implementation of the
         repository pattern to organize the database access layer in projects
         not using an ORM. It uses the records library and only supports, at the
         moment, MySQL.""",
@@ -35,13 +35,13 @@ setup(
     license="MIT license",
     long_description=readme + '\n\n' + history,
     include_package_data=True,
-    keywords='diol',
-    name='diol',
-    packages=find_packages(include=['diol']),
+    keywords='zentity, database, repository',
+    name='zentity',
+    packages=find_packages(include=['zentity']),
     setup_requires=setup_requirements,
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/tchappui/diol',
-    version='0.1.1',
+    version='0.1.0',
     zip_safe=False,
 )

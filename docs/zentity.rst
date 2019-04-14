@@ -1,13 +1,13 @@
-diol package
-============
+zentity package
+===============
 
 Submodules
 ----------
 
-diol.core module
+zentity.core module
 ----------------
 
-.. automodule:: diol.core
+.. automodule:: zentity.core
     :members:
     :undoc-members:
     :show-inheritance:
@@ -16,7 +16,7 @@ diol.core module
 Module contents
 ---------------
 
-.. automodule:: diol
+.. automodule:: zentity
     :members:
     :undoc-members:
     :show-inheritance:

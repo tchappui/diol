@@ -1,32 +1,32 @@
-=================
-Database IO Layer
-=================
+==========================
+Zentity: Database IO Layer
+==========================
 
 
-.. image:: https://img.shields.io/pypi/v/diol.svg
-        :target: https://pypi.python.org/pypi/diol
+.. image:: https://img.shields.io/pypi/v/zentity.svg
+        :target: https://pypi.python.org/pypi/zentity
 
-.. image:: https://img.shields.io/travis/tchappui/diol.svg
-        :target: https://travis-ci.org/tchappui/diol
+.. image:: https://img.shields.io/travis/tchappui/zentity.svg
+        :target: https://travis-ci.org/tchappui/zentity
 
-.. image:: https://readthedocs.org/projects/diol/badge/?version=latest
-        :target: https://diol.readthedocs.io/en/latest/?badge=latest
+.. image:: https://readthedocs.org/projects/zentity/badge/?version=latest
+        :target: https://zentity.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
 
-.. image:: https://pyup.io/repos/github/tchappui/diol/shield.svg
-     :target: https://pyup.io/repos/github/tchappui/diol/
+.. image:: https://pyup.io/repos/github/tchappui/zentity/shield.svg
+     :target: https://pyup.io/repos/github/tchappui/zentity/
      :alt: Updates
 
 
 
-The Diol Python library is a simple implementation of the repository pattern to 
-organize the database access layer in projects using raw SQL. It uses the 
+The Zentity Python library is a simple implementation of the repository pattern to
+organize the database access layer in projects using raw SQL. It uses the
 records library and only supports, at the moment, MySQL.
 
 
 * Free software: MIT license
-* Documentation: https://diol.readthedocs.io.
+* Documentation: https://zentity.readthedocs.io.
 
 
 Features

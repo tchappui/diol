@@ -5,10 +5,12 @@
 import re
 import threading
 from dataclasses import dataclass, asdict
+from inspect import signature
 
 import records
 
 _db_connections = {}
+
 
 class Repository:
     """Generic repository class suitable for basic database handling."""
@@ -86,8 +88,13 @@ class Repository:
             SELECT * FROM {self.table_name} WHERE {self._where(data)}
         """, **data).all(as_dict=True)
 
-    def create(self, instance=None, **data):
+    def create(self, **data):
         """Creates a new entry and returns the corresponding instance."""
+        for key, value in data.items():
+            if is_model(type(value)):
+                value.get_or_save()
+                del data[key]
+                data[f"{key}_id"] = value.id
         self._create(data)
         if 'id' not in data:
             data['id'] = self.last_id
@@ -98,6 +105,11 @@ class Repository:
         """Selects an entry based on the given data and creates one if nothing
         is found.
         """
+        for key, value in data.items():
+            if is_model(type(value)):
+                value.get_or_save()
+                del data[key]
+                data[f"{key}_id"] = value.id
         rows = self._get_all_by(data)
         if not rows:
             self._create(data)
@@ -121,9 +133,21 @@ class Repository:
             return self.model(**rows[0])
         return None
 
+
     def save(self, instance):
         """Saves a new instance in the database."""
-        data = {k: v for k, v in asdict(instance).items() if v is not None}
+        if not is_model(type(instance)):
+            return instance
+        data = {
+            k: v
+            for k, v in asdict(instance).items()
+            if v is not None
+        }
+        for key, value in instance.__dict__.items():
+            if is_model(type(value)):
+                value.get_or_save()
+                del data[key]
+                data[f"{key}_id"] = value.id
         self._create(data)
         if not instance.id:
             instance.id = self._last_id
@@ -132,7 +156,16 @@ class Repository:
     def get_or_save(self, instance):
         """Fills in the id of instance or save it if not already in database.
         """
-        data = {k: v for k, v in asdict(instance).items() if v is not None}
+        data = {
+            k: v
+            for k, v in asdict(instance).items()
+            if v is not None
+        }
+        for key, value in instance.__dict__.items():
+            if is_model(type(value)):
+                value.get_or_save()
+                del data[key]
+                data[f"{key}_id"] = value.id
         rows = self._get_all_by(data)
         if not rows:
             self._create(data)
@@ -160,16 +193,48 @@ class Repository:
         rows = self._get_all()
         return [self.model(**elem) for elem in rows]
 
-def model(entity):
-    """Class decorator to create models.
+class Model:
+    """Class decorator used to create models.
 
     The decorator transforms the entity into a dataclass and injects a
     repository instance as class attribute objects as well as a save method.
 
     """
-    entity = dataclass(entity)
-    if not hasattr(entity, 'objects'):
-        entity.objects = Repository(entity)
-    entity.save = lambda self: entity.objects.save(self)
-    entity.get_or_save = lambda self: entity.objects.get_or_save(self)
-    return entity
+    def __new__(cls, entity):
+        """Builds the decorator.
+
+        Args:
+            entity: entity klass sent to the decorator.
+
+        """
+        return entity
+
+    def __call__(self, **args, **kwargs):
+        self.entity = dataclass(self.entity)
+
+        # Injection of a direct link to the Repository instance
+        if not hasattr(self.entity, 'objects'):
+            self.entity.objects = Repository(self.entity)
+
+        # Injection of shortcuts to the save methods of the Repository
+        self.entity.save = lambda this: entity.objects.save(this)
+        entity.get_or_save = lambda this: entity.objects.get_or_save(this)
+
+        entity.__init__ = self._init_wrapper
+        return entity
+
+    def _init_wrapper(self, this, *args, **kwargs):
+        self.entity.__init__(this, *args, **kwargs)
+        sig = signature(entity.__init__)
+        for param in sig.parameters:
+            if is_model(param.annotation):
+                setattr(
+                    self,
+                    param.name, p
+                    param.annotation.objects.get(id=getattr(self, param.name))
+                )
+
+
+def is_model(entity):
+    if hasattr(entity, 'objects') and isinstance(entity.objects, Repository):
+        return True
